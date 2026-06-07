@@ -1,12 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quizora - Interactive Quiz App</title>
-</head>
-<body>
-    
+  </head>
+  <body>
+
+    <!-- ---------- BACKGROUND EFFECTS ---------- -->
+     <div class="bg-stars"></div>
+     <div class="bg-glow"></div>
+
+     <main class="quiz-wrapper">
+          
+        <!-- ---------- START SCREEN ---------- -->
+         <section class="card active" id="start-screen">
+            <div class="card-header">
+                <div class="badge">Quizora</div>
+                <h1>Embark on a Quiz Journey</h1>
+                <p>Test your knowledge and challenge yourself with our interactive quiz app.</p>
+            </div>
+            <div class="card-body">
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <div>
+                            <h3>Premium Interface</h3>
+                            <p>Stunning visual design with responsive elements.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚡</span>
+                        <div>
+                            <h3>Timed Challenge</h3>
+                            <p>Keep your focus high and answer before time runs out.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button id="start-btn" class="btn btn-primary btn-glow">
+                    <span>Start Quiz</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </div>
+         </section>
+
+      </main>
+
+    </div>
+
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
