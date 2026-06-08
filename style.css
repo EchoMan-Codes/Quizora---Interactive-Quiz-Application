@@ -257,6 +257,85 @@ h2 {
   transition: width 0.4s cubic-bezier(0.1, 0.8, 0.25, 1);
 }
 
+/* ----- Options Grid ----- */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.option-btn:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--border-hover);
+    transform: translateX(4px);
+}
+
+.option-btn:disabled {
+    cursor: not-allowed;
+}
+
+.option-btn.selected {
+    border-color: #4facfe;
+    background: rgba(79, 172, 254, 0.1);
+}
+
+.option-btn.correct {
+    background: rgba(56, 239, 125, 0.15) !important;
+    border-color: #38ef7d !important;
+    color: #38ef7d;
+    font-weight: 600;
+}
+
+.option-btn.incorrect {
+    background: rgba(255, 75, 43, 0.15) !important;
+    border-color: #ff4b2b !important;
+    color: #ff4b2b;
+}
+
+/* ----- Option Indicator (A, B, C, D circle) ----- */
+.option-indicator {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.option-btn.correct .option-indicator {
+    border-color: #38ef7d;
+    background: #38ef7d;
+    color: #070614;
+}
+
+.option-btn.incorrect .option-indicator {
+    border-color: #ff4b2b;
+    background: #ff4b2b;
+    color: white;
+}
+
 /* ----- Disabled Button State ----- */
 .btn-primary:disabled {
   background: rgba(255, 255, 255, 0.08);
@@ -272,4 +351,18 @@ h2 {
   align-items: center;
   gap: 16px;
   min-height: 52px;
+}
+
+.feedback-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.feedback-text.correct {
+    color: #38ef7d;
+}
+
+.feedback-text.incorrect {
+    color: #ff4b2b;
 }
