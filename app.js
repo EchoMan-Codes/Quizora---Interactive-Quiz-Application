@@ -54,6 +54,7 @@ let score = 0;
 // ----- DOM Elements -----
 const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
+const resultScreen = document.getElementById("result-screen");
 
 const startBtn = document.getElementById('start-btn');
 const nextBtn = document.getElementById('next-btn');
@@ -63,6 +64,15 @@ const progressBar = document.getElementById("progress-bar");
 const questionText = document.getElementById("question-text");
 const optionsContainer = document.getElementById("options-container");
 const feedbackText = document.getElementById("feedback-text");
+
+// Result Screen Elements
+const resultEmoji = document.getElementById("result-emoji");
+const resultTitle = document.getElementById("result-title");
+const resultMessage = document.getElementById("result-message");
+const scoreFraction = document.getElementById("score-fraction");
+const statAccuracy = document.getElementById("stat-accuracy");
+const statTime = document.getElementById("stat-time");
+const restartBtn = document.getElementById("restart-btn");
 
 
 // ----- Screen Switching Function -----
@@ -112,6 +122,11 @@ const showQuestion = (index) => {
 
 // ----- Options Selection Logic -----
 const selectOption = (selectedBtn, isCorrect) => {
+    // Disable all option buttons to prevent multiple clicks
+    const optionBtns = optionsContainer.querySelectorAll(".option-btn");
+    optionBtns.forEach(btn => {
+        btn.disabled = true;
+    });
     if (isCorrect) {
         selectedBtn.classList.add('correct');
         score++;
@@ -141,6 +156,36 @@ const revealCorrectOption = () => {
     }
 }
 
+//  ----- Show Result Screen -----
+const showResults = () => {
+    switchActiveCard(quizScreen, resultScreen);
+
+    // Calculate score fraction
+    scoreFraction.textContent = `${score}/${questions.length}`;
+
+    // Calculate accuracy percentage
+    const accuracy = Math.round((score / questions.length) * 100);
+    statAccuracy.textContent = `${accuracy}%`;
+
+    // Placeholder for average time (we'll add timer tracking later)
+    statTime.textContent = "--";
+
+    // Display emoji, title, and message based on performance
+    if (score === questions.length) {
+        resultEmoji.textContent = "👑";
+        resultTitle.textContent = "Universal Master!";
+        resultMessage.textContent = "You scored 100%! The cosmos bows to your intellectual dominance.";
+    } else if (score >= 3) {
+        resultEmoji.textContent = "🏆";
+        resultTitle.textContent = "Excellent Work!";
+        resultMessage.textContent = "You have a solid command over space tech trivia.";
+    } else {
+        resultEmoji.textContent = "☄️";
+        resultTitle.textContent = "Keep Practicing!";
+        resultMessage.textContent = "Space is vast and full of mysteries. Try again to boost your score!";
+    }
+}
+
 //  ----- START QUIZ ----- 
 const startQuiz = () => {
     currentQuestionIndex = 0;
@@ -151,3 +196,17 @@ const startQuiz = () => {
 }
 
 startBtn.addEventListener('click', startQuiz);
+
+nextBtn.addEventListener('click', () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion(currentQuestionIndex);
+    } else {
+        showResults();
+    }
+})
+
+// ----- RESTART QUIZ -----
+restartBtn.addEventListener("click", () => {
+    switchActiveCard(resultScreen, startScreen);
+});
