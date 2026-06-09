@@ -239,6 +239,11 @@ h2 {
   font-weight: 600;
 }
 
+.timer-badge.danger {   
+    border-color: rgba(255, 75, 43, 0.4);
+    color: #ff4b2b;
+}
+
 /* ----- Progress Bar ----- */
 .progress-bar-container {
   width: 100%;
@@ -464,4 +469,50 @@ h2 {
 /* Full-width Button */
 .btn-full {
     width: 100%;
+}
+
+ /* 10. Responsive Design */
+@media (max-width: 480px) {
+    .card {
+        padding: 24px;
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 14px 20px;
+    }
+
+    .score-num {
+        font-size: 2.5rem;
+    }
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 12px;
+    }
+
+    .option-btn {
+        padding: 14px 18px;
+        font-size: 0.95rem;
+    }
+
+    .quiz-footer {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .quiz-footer .btn {
+        width: 100%;
+    }
 }

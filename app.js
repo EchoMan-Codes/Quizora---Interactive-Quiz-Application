@@ -50,6 +50,10 @@ const questions = [
 // ----- App State Varibales -----
 let currentQuestionIndex = 0;
 let score = 0;
+let timeLeft = 15;
+let timerInterval = null;
+let timeSpentArray = [];
+let questionStartTime = 0;
 
 // ----- DOM Elements -----
 const startScreen = document.getElementById('start-screen');
@@ -64,6 +68,8 @@ const progressBar = document.getElementById("progress-bar");
 const questionText = document.getElementById("question-text");
 const optionsContainer = document.getElementById("options-container");
 const feedbackText = document.getElementById("feedback-text");
+const timerText = document.getElementById("timer-text");
+const timerBadge = document.querySelector(".timer-badge");
 
 // Result Screen Elements
 const resultEmoji = document.getElementById("result-emoji");
@@ -87,6 +93,12 @@ const switchActiveCard = (currentCard, targetCard) => {
 // ----- Show Questions -----
 const showQuestion = (index) => {
     const questionObj = questions[index];
+    
+    // Reset timer
+    clearInterval(timerInterval);
+    timeLeft = 15;
+    timerText.textContent = `${timeLeft}s`;
+    timerBadge.classList.remove("danger");
 
     // Update counter and Progress bar
     questionCounter.textContent = `Question ${index + 1} of ${questions.length}`
@@ -101,6 +113,9 @@ const showQuestion = (index) => {
     feedbackText.textContent = "";
     feedbackText.className = "feedback-text";
     nextBtn.disabled = true;
+    
+    // Track when this question started
+    questionStartTime = Date.now();
 
     // Loop through options and create buttons dynamically
     questionObj.options.forEach((option, idx) => {
@@ -118,10 +133,60 @@ const showQuestion = (index) => {
         optionBtn.addEventListener("click", () => selectOption(optionBtn, option.correct));
         optionsContainer.appendChild(optionBtn);
     });
+
+    startTimer();
+}
+
+// ----- Timer Countdown -----
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerText.textContent = `${timeLeft}s`;
+
+        // Add danger styling when 5 seconds or less remain
+        if (timeLeft <= 5) {
+            timerBadge.classList.add("danger");
+        }
+
+        // Time ran out
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            handleTimeout();
+        }
+    }, 1000);
+}
+
+// Handle when time runs out
+const handleTimeout = () => {
+    // Record max time spent
+    timeSpentArray.push(15);
+
+    // Disable all options
+    const optionBtns = optionsContainer.querySelectorAll(".option-btn");
+    optionBtns.forEach(btn => {
+        btn.disabled = true;
+    });
+
+    // Show timeout feedback
+    feedbackText.textContent = "Time's up! ⏰";
+    feedbackText.className = "feedback-text incorrect";
+
+    // Reveal the correct answer
+    revealCorrectOption();
+
+    // Enable Next button
+    nextBtn.disabled = false;
 }
 
 // ----- Options Selection Logic -----
 const selectOption = (selectedBtn, isCorrect) => {
+       // Stop the countdown
+    clearInterval(timerInterval);
+
+    // Track time spent on this question
+    const timeSpent = Math.min(15, Math.round((Date.now() - questionStartTime) / 1000));
+    timeSpentArray.push(timeSpent);
+
     // Disable all option buttons to prevent multiple clicks
     const optionBtns = optionsContainer.querySelectorAll(".option-btn");
     optionBtns.forEach(btn => {
@@ -167,8 +232,10 @@ const showResults = () => {
     const accuracy = Math.round((score / questions.length) * 100);
     statAccuracy.textContent = `${accuracy}%`;
 
-    // Placeholder for average time (we'll add timer tracking later)
-    statTime.textContent = "--";
+    // Calculate average time per question
+    const totalTimeSpent = timeSpentArray.reduce((acc, curr) => acc + curr, 0);
+    const avgTime = timeSpentArray.length > 0 ? (totalTimeSpent / timeSpentArray.length).toFixed(1) : 0;
+    statTime.textContent = `${avgTime}s`;
 
     // Display emoji, title, and message based on performance
     if (score === questions.length) {
@@ -190,6 +257,7 @@ const showResults = () => {
 const startQuiz = () => {
     currentQuestionIndex = 0;
     score = 0;
+    timeSpentArray = [];
 
     switchActiveCard(startScreen, quizScreen);
     showQuestion(currentQuestionIndex);

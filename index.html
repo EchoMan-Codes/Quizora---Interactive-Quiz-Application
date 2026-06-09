@@ -14,10 +14,6 @@
   </head>
   <body>
 
-    <!-- ---------- BACKGROUND EFFECTS ---------- -->
-     <div class="bg-stars"></div>
-     <div class="bg-glow"></div>
-
      <main class="quiz-wrapper">
           
         <!-- ---------- START SCREEN ---------- -->
@@ -46,7 +42,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button id="start-btn" class="btn btn-primary btn-glow">
+                <button id="start-btn" class="btn btn-primary" aria-label="Start the quiz">
                     <span>Start Quiz</span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </button>
@@ -61,13 +57,13 @@
                     <span id="question-counter">Question 1 of 5</span>
                     <div class="timer-badge">
                         <span class="timer-icon">⏱️</span>
-                        <span class="timer-text">15s</span>
+                        <span id="timer-text">15s</span>
                     </div>
                 </div>
-                <div class="progress-bar-container">
+                <div class="progress-bar-container" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                     <div class="progress-bar" id="progress-bar" style="width: 20%;"></div>
                 </div>
-                <h2 id="question-text">Loading question...</h2>
+                <h2 id="question-text" aria-live="polite">Loading question...</h2>
             </div>
             <div class="card-body">
                 <div id="options-container" class="options-grid">
@@ -75,8 +71,8 @@
                 </div>
             </div>
             <div class="card-footer quiz-footer">
-                <div class="feedback-text" id="feedback-text"></div>
-                <button id="next-btn" class="btn btn-primary" disabled>
+                <div class="feedback-text" id="feedback-text"  aria-live="polite"></div>
+                <button id="next-btn" class="btn btn-primary" disabled aria-label="Go to next question">
                     <span>Next Question</span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </button>
