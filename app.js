@@ -1,4 +1,4 @@
-// Array of Questions
+// ----- Array of Questions -----
 const questions = [
     {
         question: "Which planet in our solar system is known for its giant, swirling storm called the Great Red Spot?",
@@ -47,10 +47,11 @@ const questions = [
     }
 ];
 
-
+// ----- App State Varibales -----
 let currentQuestionIndex = 0;
 let score = 0;
 
+// ----- DOM Elements -----
 const startScreen = document.getElementById('start-screen');
 const quizScreen = document.getElementById('quiz-screen');
 
@@ -109,11 +110,36 @@ const showQuestion = (index) => {
     });
 }
 
-// Temporary placeholder (will be replaced in next step)
-function selectOption(selectedBtn, isCorrect) {
-    console.log("Option clicked!", isCorrect ? "Correct!" : "Wrong!");
+// ----- Options Selection Logic -----
+const selectOption = (selectedBtn, isCorrect) => {
+    if (isCorrect) {
+        selectedBtn.classList.add('correct');
+        score++;
+        feedbackText.textContent = 'Correct! Magnificent Job. 🚀';
+        feedbackText.className = 'feedback-text correct';
+    } else {
+        selectedBtn.classList.add('incorrect');
+        feedbackText.textContent = 'Incorrect answer. Keep learning! 💫';
+        feedbackText.className = 'feedback-text incorrect';
+
+        // Also reveal the correct answer.
+        revealCorrectOption();
+    }
+    
+    // Enable the Next Button
+    nextBtn.disabled = false;
 }
 
+const revealCorrectOption = () => {
+    const questionObj = questions[currentQuestionIndex];
+    const correctIdx = questionObj.options.findIndex(opt => opt.correct);
+    if (correctIdx !== -1) {
+        const correctBtn = document.getElementById(`option-${correctIdx}`);
+        if (correctBtn) {
+            correctBtn.classList.add("correct");
+        }
+    }
+}
 
 //  ----- START QUIZ ----- 
 const startQuiz = () => {
